@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        public: true
+        autowire: true
+        
+    Kematjaya\WilayahBundle\Repository\KabupatenRepository: ~
+    Kematjaya\WilayahBundle\Repository\KecamatanRepository: ~
+    Kematjaya\WilayahBundle\Repository\ProvinsiRepository: ~
