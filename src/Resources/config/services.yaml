@@ -6,3 +6,7 @@ services:
     Kematjaya\WilayahBundle\Repository\KabupatenRepository: ~
     Kematjaya\WilayahBundle\Repository\KecamatanRepository: ~
     Kematjaya\WilayahBundle\Repository\ProvinsiRepository: ~
+    Kematjaya\WilayahBundle\Fixtures\WilayahFixtures:
+        class: Kematjaya\WilayahBundle\Fixtures\WilayahFixtures
+        tags: 
+            - doctrine.fixture.orm

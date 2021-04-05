@@ -24,5 +24,8 @@
         "psr-4": {
             "Kematjaya\\WilayahBundle\\Tests\\": "tests/"
         }
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4"
     }
 }
