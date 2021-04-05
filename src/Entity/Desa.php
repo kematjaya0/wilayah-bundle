@@ -34,7 +34,8 @@ class Desa
     private $kecamatan;
     
     /**
-     * @ORM\ManyToOne(targetEntity=Kelurahan::class, nullable=true)
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity=Kelurahan::class)
      */
     private $kelurahan;
     
