@@ -12,3 +12,8 @@ services:
         class: Kematjaya\WilayahBundle\Fixtures\WilayahFixtures
         tags: 
             - doctrine.fixture.orm
+            
+    Kematjaya\WilayahBundle\Fixtures\KelurahanFixtures:
+        class: Kematjaya\WilayahBundle\Fixtures\KelurahanFixtures
+        tags: 
+            - doctrine.fixture.orm

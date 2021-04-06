@@ -6,8 +6,8 @@
 
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Kematjaya\WilayahBundle\Entity\Kelurahan;
-use Kematjaya\WilayahBundle\Entity\Kecamatan;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -17,16 +17,26 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  * @license https://opensource.org/licenses/MIT MIT
  * @author  Nur Hidayatullah <kematjaya0@gmail.com>
  */
-class KelurahanFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
+class KelurahanFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
+    /**
+     * 
+     * @var KecamatanRepository
+     */
+    private $kecamatanRepo;
+    
+    public function __construct(KecamatanRepository $kecamatanRepo) 
+    {
+        $this->kecamatanRepo = $kecamatanRepo;
+    }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $content = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'kelurahan.json');
-        
-        $kelurahans = json_decode($content, true);
-        
-        $kecamatans = $manager->getRepository(Kecamatan::class)->findAll();
+        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
+        $kelurahans = json_decode(
+            file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'), true
+        );
+        $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
             $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
                 
@@ -52,7 +62,9 @@ class KelurahanFixtures extends Fixture implements DependentFixtureInterface, Fi
 
     public function getDependencies() 
     {
-        return [WilayahFixtures::class];
+        return [
+            WilayahFixtures::class
+        ];
     }
 
 }
