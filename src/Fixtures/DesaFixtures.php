@@ -6,8 +6,8 @@
 
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Kematjaya\WilayahBundle\Entity\Desa;
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
-use Kematjaya\WilayahBundle\Entity\Kelurahan;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -18,8 +18,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  * @license https://opensource.org/licenses/MIT MIT
  * @author  Nur Hidayatullah <kematjaya0@gmail.com>
  */
-class KelurahanFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
+class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface 
 {
+    
     /**
      * 
      * @var KecamatanRepository
@@ -48,7 +49,7 @@ class KelurahanFixtures extends Fixture implements FixtureGroupInterface, Depend
                 return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
             });
             foreach ($kels as $kel) {
-                $kelurahan = new Kelurahan();
+                $kelurahan = new Desa();
                 $kelurahan->setCode($kel['kode'])
                         ->setName($kel['nama'])
                         ->setKecamatan($kecamatan);

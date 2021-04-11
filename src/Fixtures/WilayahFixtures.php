@@ -11,6 +11,7 @@ use Kematjaya\WilayahBundle\Entity\Kabupaten;
 use Kematjaya\WilayahBundle\Entity\Provinsi;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @package Kematjaya\WIlayahBundle\Fixtures
@@ -19,9 +20,16 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
  */
 class WilayahFixtures extends Fixture implements FixtureGroupInterface
 {
+    private $configs = [];
+    
+    public function __construct(ParameterBagInterface $bag) 
+    {
+        $configs = $bag->get('wilayah');
+        $this->configs = $configs['filter'];
+    }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
-    {
+    {dump($this->configs);exit;
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
         $provinsi = json_decode(
             file_get_contents($location . DIRECTORY_SEPARATOR . 'provinsi.json'), true
