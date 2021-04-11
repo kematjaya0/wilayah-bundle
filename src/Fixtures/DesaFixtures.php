@@ -11,7 +11,6 @@ use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @package Kematjaya\WilayahBundle\Fixtures
@@ -27,17 +26,13 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
      */
     private $kecamatanRepo;
     
-    private $configs = [];
-    
-    public function __construct(KecamatanRepository $kecamatanRepo, ParameterBagInterface $bag) 
+    public function __construct(KecamatanRepository $kecamatanRepo) 
     {
         $this->kecamatanRepo = $kecamatanRepo;
-        $configs = $bag->get('wilayah');
-        $this->configs = $configs['filter'];
     }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
-    {dump($this->configs);exit;
+    {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
         $kelurahans = json_decode(
             file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'), true

@@ -24,13 +24,13 @@ class Configuration implements ConfigurationInterface
     public function addRouteConfig(NodeBuilder $node)
     {
         $node
-            ->arrayNode('filter')->addDefaultsIfNotSet()
+            ->arrayNode('filter')
+                ->addDefaultsIfNotSet()
                 ->children()
-                    ->arrayNode('provinsi')->defaultValue([])->prototype('scalar')->end()
-                    ->arrayNode('kabupaten')->defaultValue([])->prototype('scalar')->end()
-                    ->arrayNode('kecamatan')->defaultValue([])->prototype('scalar')->end()
-                ->end()
-            ->end();
+                    ->arrayNode('provinsi')->defaultValue([])->prototype('scalar')->end()->end()
+                    ->arrayNode('kabupaten')->defaultValue([])->prototype('scalar')->end()->end()
+                    ->arrayNode('kecamatan')->defaultValue([])->prototype('scalar')->end()->end()
+                ->end();
     }
 
 }

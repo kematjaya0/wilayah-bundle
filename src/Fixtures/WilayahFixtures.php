@@ -29,7 +29,7 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
     }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
-    {dump($this->configs);exit;
+    {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
         $provinsi = json_decode(
             file_get_contents($location . DIRECTORY_SEPARATOR . 'provinsi.json'), true
@@ -40,6 +40,27 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
         $kecamatans = json_decode(
             file_get_contents($location . DIRECTORY_SEPARATOR . 'kecamatan.json'), true
         );
+        
+        if (!empty($this->configs['provinsi'])) {
+            $provinsi = array_filter($provinsi, function ($row) {
+                
+                return in_array($row['id'], $this->configs['provinsi']);
+            });
+        }
+        
+        if (!empty($this->configs['kabupaten'])) {
+            $kabKota = array_filter($kabKota, function ($row) {
+                
+                return in_array($row['kode'], $this->configs['kabupaten']);
+            });
+        }
+        
+        if (!empty($this->configs['kecamatan'])) {
+            $kecamatans = array_filter($kecamatans, function ($row) {
+                
+                return in_array($row['kode'], $this->configs['kecamatan']);
+            });
+        }
         
         foreach ($provinsi as $prov) {
             $object = new Provinsi();
