@@ -3,11 +3,26 @@ services:
         public: true
         autowire: true
         
-    Kematjaya\WilayahBundle\Repository\KabupatenRepository: ~
-    Kematjaya\WilayahBundle\Repository\KecamatanRepository: ~
-    Kematjaya\WilayahBundle\Repository\ProvinsiRepository: ~
-    Kematjaya\WilayahBundle\Repository\KelurahanRepository: ~
-    Kematjaya\WilayahBundle\Repository\DesaRepository: ~
+    Kematjaya\WilayahBundle\Repository\KabupatenRepository:
+        class: Kematjaya\WilayahBundle\Repository\KabupatenRepository
+        tags: 
+            - doctrine.repository_service
+    Kematjaya\WilayahBundle\Repository\KecamatanRepository:
+        class: Kematjaya\WilayahBundle\Repository\KecamatanRepository
+        tags: 
+            - doctrine.repository_service
+    Kematjaya\WilayahBundle\Repository\ProvinsiRepository:
+        class: Kematjaya\WilayahBundle\Repository\ProvinsiRepository
+        tags: 
+            - doctrine.repository_service
+    Kematjaya\WilayahBundle\Repository\KelurahanRepository:
+        class: Kematjaya\WilayahBundle\Repository\KelurahanRepository
+        tags: 
+            - doctrine.repository_service
+    Kematjaya\WilayahBundle\Repository\DesaRepository:
+        class: Kematjaya\WilayahBundle\Repository\DesaRepository
+        tags: 
+            - doctrine.repository_service
     Kematjaya\WilayahBundle\Fixtures\WilayahFixtures:
         class: Kematjaya\WilayahBundle\Fixtures\WilayahFixtures
         tags: 

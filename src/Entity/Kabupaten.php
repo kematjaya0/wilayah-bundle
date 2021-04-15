@@ -45,6 +45,11 @@ class Kabupaten
     {
         $this->kecamatans = new ArrayCollection();
     }
+    
+    public function __toString() 
+    {
+        return $this->getName();
+    }
 
     public function getId(): ?\Symfony\Component\Uid\Uuid
     {

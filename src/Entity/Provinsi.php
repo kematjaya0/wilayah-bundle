@@ -40,6 +40,11 @@ class Provinsi
         $this->kabupatens = new ArrayCollection();
     }
 
+    public function __toString() 
+    {
+        return $this->getName();
+    }
+    
     public function getId(): ?\Symfony\Component\Uid\Uuid
     {
         return $this->id;

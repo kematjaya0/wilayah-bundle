@@ -39,6 +39,11 @@ class Kecamatan
         return $this->id;
     }
 
+    public function __toString() 
+    {
+        return $this->getName();
+    }
+    
     public function getCode(): ?string
     {
         return $this->code;
