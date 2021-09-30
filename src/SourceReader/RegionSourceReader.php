@@ -14,7 +14,7 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  */
 class RegionSourceReader implements RegionSourceReaderInterface
 {
-    public function filterByProvinceId(string $provinceId, array $ids = []): ?array 
+    public function filterByProvinceId(string $provinceId, array $ids = []): array 
     {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data/v2/kota';
         
