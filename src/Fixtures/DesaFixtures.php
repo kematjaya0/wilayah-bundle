@@ -41,17 +41,13 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $desas = $this->villageSourceReader->read();
         $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
-            $kels = array_filter($desas, function ($kecRow) use ($kecamatan) {
-                
-                return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
-            });
-            foreach ($kels as $kel) {
+            $villages = $this->villageSourceReader->filterByDistrictId($kecamatan->getCode());
+            foreach ($villages as $village) {
                 $kelurahan = new Desa();
-                $kelurahan->setCode($kel['kode'])
-                        ->setName($kel['nama'])
+                $kelurahan->setCode($village['id'])
+                        ->setName(strtoupper($village['nama']))
                         ->setKecamatan($kecamatan);
                 
                 $manager->persist($kelurahan);

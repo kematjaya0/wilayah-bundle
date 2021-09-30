@@ -14,14 +14,23 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  */
 class VillageSourceReader implements VillageSourceReaderInterface
 {
-    //put your code here
-    public function read(): array 
+    public function filterByDistrictId(string $regionId, array $ids = []): array 
     {
-        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
+        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data/v2/kelurahan';
         
-        return json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'), true
+        $datas = json_decode(
+            file_get_contents($location . DIRECTORY_SEPARATOR . $regionId . '.json'), true
         );
+        
+        if (empty($ids)) {
+            
+            return $datas;
+        }
+        
+        return array_filter($datas, function ($row) use ($ids) {
+                
+            return in_array($row['id'], $ids);
+        });
     }
 
 }

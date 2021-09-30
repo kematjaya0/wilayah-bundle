@@ -11,7 +11,7 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  *
  * @author guest
  */
-interface DistrictSourceReaderInterface extends SourceReaderInterface
+interface DistrictSourceReaderInterface
 {
-    //put your code here
+    public function filterByRegionId(string $regionId, array $ids = []): array;
 }

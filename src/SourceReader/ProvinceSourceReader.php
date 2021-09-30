@@ -16,11 +16,25 @@ class ProvinceSourceReader implements ProvinceSourceReaderInterface
 {
     public function read(): array 
     {
-        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
+        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data/v2';
         
         return json_decode(
             file_get_contents($location . DIRECTORY_SEPARATOR . 'provinsi.json'), true
         );
+    }
+    
+    public function findAll(array $ids = []):?array
+    {
+        $provinsi = $this->read();
+        if (empty($ids)) {
+            
+            return $provinsi;
+        }
+        
+        return array_filter($provinsi, function (array $row) use ($ids) {
+                
+            return in_array($row['id'], $ids);
+        });
     }
 
 }

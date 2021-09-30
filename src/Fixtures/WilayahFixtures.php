@@ -54,59 +54,29 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $provinsi = $this->provinceSourceReader->read();
-        $kabKota = $this->regionSourceReader->read();
-        $kecamatans = $this->districtSourceReader->read();
-        
-        if (!empty($this->configs['provinsi'])) {
-            $provinsi = array_filter($provinsi, function ($row) {
-                
-                return in_array($row['id'], $this->configs['provinsi']);
-            });
-        }
-        
-        if (!empty($this->configs['kabupaten'])) {
-            $kabKota = array_filter($kabKota, function ($row) {
-                
-                return in_array($row['kode'], $this->configs['kabupaten']);
-            });
-        }
-        
-        if (!empty($this->configs['kecamatan'])) {
-            $kecamatans = array_filter($kecamatans, function ($row) {
-                
-                return in_array($row['kode'], $this->configs['kecamatan']);
-            });
-        }
-        
-        foreach ($provinsi as $prov) {
+        $provinsis = $this->provinceSourceReader->findAll(
+            $this->configs['provinsi']
+        );
+        foreach ($provinsis as $prov) {
             $object = new Provinsi();
             $object->setCode($prov['id'])
-                    ->setName($prov['nama']);
-            
-            $kabupaten = array_filter($kabKota, function ($row) use ($object) {
-                
-                return (preg_match("/^" . $object->getCode() . "/i", $row['kode']));
-            });
+                    ->setName(strtoupper($prov['nama']));
             
             $manager->persist($object);
-            foreach ($kabupaten as $kab) {
+            $kabupatens = $this->regionSourceReader->filterByProvinceId($prov['id'], $this->configs['kabupaten']);
+            foreach ($kabupatens as $kabupaten) {
                 $kabObject = new Kabupaten();
                 $kabObject->setProvinsi($object)
-                        ->setCode($kab['kode'])
-                        ->setName($kab['nama']);
-                $kecs = array_filter($kecamatans, function ($kecRow) use ($kabObject) {
-                
-                    return (preg_match("/^" . $kabObject->getCode() . "/i", $kecRow['kode']));
-                });
+                        ->setCode($kabupaten['id'])
+                        ->setName(strtoupper($kabupaten['nama']));
                 
                 $manager->persist($kabObject);
-                
-                foreach ($kecs as $kec) {
+                $kecamatans = $this->districtSourceReader->filterByRegionId($kabupaten['id'], $this->configs['kecamatan']);
+                foreach ($kecamatans as $kecamatan) {
                     $kecObject = new Kecamatan();
                     $kecObject->setKabupaten($kabObject)
-                            ->setCode($kec['kode'])
-                            ->setName($kec['nama']);
+                            ->setCode($kecamatan['id'])
+                            ->setName(strtoupper($kecamatan['nama']));
                     
                     $manager->persist($kecObject);
                 }

@@ -11,7 +11,7 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  *
  * @author guest
  */
-interface ProvinceSourceReaderInterface extends SourceReaderInterface
+interface ProvinceSourceReaderInterface
 {
-    
+    public function findAll(array $ids = []):?array;
 }

@@ -11,7 +11,7 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  *
  * @author guest
  */
-interface KelurahanSourceReaderInterface extends SourceReaderInterface
+interface KelurahanSourceReaderInterface
 {
     //put your code here
 }

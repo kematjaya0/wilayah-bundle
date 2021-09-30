@@ -12,7 +12,7 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  *
  * @author guest
  */
-interface RegionSourceReaderInterface extends SourceReaderInterface
+interface RegionSourceReaderInterface
 {
-    //put your code here
+    public function filterByProvinceId(string $provinceId, array $ids = []): array;
 }
