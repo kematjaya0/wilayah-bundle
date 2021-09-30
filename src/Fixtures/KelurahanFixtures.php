@@ -6,6 +6,7 @@
 
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Kematjaya\WilayahBundle\SourceReader\KelurahanSourceReaderInterface;
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Kematjaya\WilayahBundle\Entity\Kelurahan;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -25,17 +26,21 @@ class KelurahanFixtures extends Fixture implements FixtureGroupInterface, Depend
      */
     private $kecamatanRepo;
     
-    public function __construct(KecamatanRepository $kecamatanRepo) 
+    /**
+     * 
+     * @var KelurahanSourceReaderInterface
+     */
+    private $kelurahanSourceReader;
+    
+    public function __construct(KecamatanRepository $kecamatanRepo, KelurahanSourceReaderInterface $kelurahanSourceReader) 
     {
         $this->kecamatanRepo = $kecamatanRepo;
+        $this->kelurahanSourceReader = $kelurahanSourceReader;
     }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
-        $kelurahans = json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'), true
-        );
+        $kelurahans = $this->kelurahanSourceReader->read();
         $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
             $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {

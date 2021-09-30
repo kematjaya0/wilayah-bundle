@@ -7,6 +7,7 @@
 namespace Kematjaya\WilayahBundle\Fixtures;
 
 use Kematjaya\WilayahBundle\Entity\Desa;
+use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -26,20 +27,24 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
      */
     private $kecamatanRepo;
     
-    public function __construct(KecamatanRepository $kecamatanRepo) 
+    /**
+     * 
+     * @var VillageSourceReaderInterface
+     */
+    private $villageSourceReader;
+    
+    public function __construct(KecamatanRepository $kecamatanRepo, VillageSourceReaderInterface $villageSourceReader) 
     {
         $this->kecamatanRepo = $kecamatanRepo;
+        $this->villageSourceReader = $villageSourceReader;
     }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
-        $kelurahans = json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'), true
-        );
+        $desas = $this->villageSourceReader->read();
         $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
-            $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
+            $kels = array_filter($desas, function ($kecRow) use ($kecamatan) {
                 
                 return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
             });

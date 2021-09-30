@@ -9,6 +9,9 @@ namespace Kematjaya\WilayahBundle\Fixtures;
 use Kematjaya\WilayahBundle\Entity\Kecamatan;
 use Kematjaya\WilayahBundle\Entity\Kabupaten;
 use Kematjaya\WilayahBundle\Entity\Provinsi;
+use Kematjaya\WilayahBundle\SourceReader\DistrictSourceReaderInterface;
+use Kematjaya\WilayahBundle\SourceReader\RegionSourceReaderInterface;
+use Kematjaya\WilayahBundle\SourceReader\ProvinceSourceReaderInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -22,24 +25,38 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
 {
     private $configs = [];
     
-    public function __construct(ParameterBagInterface $bag) 
+    /**
+     * 
+     * @var ProvinceSourceReaderInterface
+     */
+    private $provinceSourceReader;
+    
+    /**
+     * 
+     * @var RegionSourceReaderInterface
+     */
+    private $regionSourceReader;
+    
+    /**
+     * 
+     * @var DistrictSourceReaderInterface
+     */
+    private $districtSourceReader;
+    
+    public function __construct(ParameterBagInterface $bag, DistrictSourceReaderInterface $districtSourceReader, RegionSourceReaderInterface $regionSourceReader, ProvinceSourceReaderInterface $provinceSourceReader) 
     {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
+        $this->provinceSourceReader = $provinceSourceReader;
+        $this->regionSourceReader = $regionSourceReader;
+        $this->districtSourceReader = $districtSourceReader;
     }
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
-        $provinsi = json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'provinsi.json'), true
-        );
-        $kabKota = json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'kabupaten.json'), true
-        );
-        $kecamatans = json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'kecamatan.json'), true
-        );
+        $provinsi = $this->provinceSourceReader->read();
+        $kabKota = $this->regionSourceReader->read();
+        $kecamatans = $this->districtSourceReader->read();
         
         if (!empty($this->configs['provinsi'])) {
             $provinsi = array_filter($provinsi, function ($row) {

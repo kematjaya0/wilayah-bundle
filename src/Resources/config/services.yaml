@@ -15,10 +15,10 @@ services:
         class: Kematjaya\WilayahBundle\Repository\ProvinsiRepository
         tags: 
             - doctrine.repository_service
-    Kematjaya\WilayahBundle\Repository\KelurahanRepository:
-        class: Kematjaya\WilayahBundle\Repository\KelurahanRepository
-        tags: 
-            - doctrine.repository_service
+#    Kematjaya\WilayahBundle\Repository\KelurahanRepository:
+#        class: Kematjaya\WilayahBundle\Repository\KelurahanRepository
+#        tags: 
+#            - doctrine.repository_service
     Kematjaya\WilayahBundle\Repository\DesaRepository:
         class: Kematjaya\WilayahBundle\Repository\DesaRepository
         tags: 
@@ -37,3 +37,18 @@ services:
         class: Kematjaya\WilayahBundle\Fixtures\DesaFixtures
         tags: 
             - doctrine.fixture.orm
+            
+    Kematjaya\WilayahBundle\SourceReader\DistrictSourceReaderInterface:
+        class: Kematjaya\WilayahBundle\SourceReader\DistrictSourceReader
+        
+    Kematjaya\WilayahBundle\SourceReader\RegionSourceReaderInterface:
+        class: Kematjaya\WilayahBundle\SourceReader\RegionSourceReader
+        
+    Kematjaya\WilayahBundle\SourceReader\ProvinceSourceReaderInterface:
+        class: Kematjaya\WilayahBundle\SourceReader\ProvinceSourceReader
+        
+    Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface:
+        class: Kematjaya\WilayahBundle\SourceReader\VillageSourceReader
+        
+    Kematjaya\WilayahBundle\SourceReader\KelurahanSourceReaderInterface:
+        class: Kematjaya\WilayahBundle\SourceReader\KelurahanSourceReader
