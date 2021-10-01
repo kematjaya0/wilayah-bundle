@@ -81,9 +81,9 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
                     $manager->persist($kecObject);
                 }
             }
+            
+            $manager->flush();
         }
-        
-        $manager->flush();
     }
     
     public static function getGroups(): array 
