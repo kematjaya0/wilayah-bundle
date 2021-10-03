@@ -40,24 +40,24 @@ class KelurahanFixtures extends Fixture implements FixtureGroupInterface, Depend
     
     public function load(\Doctrine\Persistence\ObjectManager $manager) 
     {
-        $kelurahans = $this->kelurahanSourceReader->read();
-        $kecamatans = $this->kecamatanRepo->findAll();
-        foreach ($kecamatans as $kecamatan) {
-            $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
-                
-                return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
-            });
-            foreach ($kels as $kel) {
-                $kelurahan = new Kelurahan();
-                $kelurahan->setCode($kel['kode'])
-                        ->setName($kel['nama'])
-                        ->setKecamatan($kecamatan);
-                
-                $manager->persist($kelurahan);
-            }
-        }
-        
-        $manager->flush();
+//        $kelurahans = $this->kelurahanSourceReader->read();
+//        $kecamatans = $this->kecamatanRepo->findAll();
+//        foreach ($kecamatans as $kecamatan) {
+//            $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
+//                
+//                return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
+//            });
+//            foreach ($kels as $kel) {
+//                $kelurahan = new Kelurahan();
+//                $kelurahan->setCode($kel['kode'])
+//                        ->setName($kel['nama'])
+//                        ->setKecamatan($kecamatan);
+//                
+//                $manager->persist($kelurahan);
+//            }
+//        }
+//        
+//        $manager->flush();
     }
     
     public static function getGroups(): array 

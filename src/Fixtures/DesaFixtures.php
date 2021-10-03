@@ -43,7 +43,13 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
     {
         $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
-            $villages = $this->villageSourceReader->filterByDistrictId($kecamatan->getCode());
+            try {
+                $villages = $this->villageSourceReader->filterByDistrictId($kecamatan->getCode());
+            } catch (\Exception $ex) {
+                dump($ex->getMessage());
+                continue;
+            }
+            
             foreach ($villages as $village) {
                 $kelurahan = new Desa();
                 $kelurahan->setCode($village['id'])
