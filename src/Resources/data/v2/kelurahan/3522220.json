@@ -1,1 +1,12 @@
-[{"id":3522220001,"id_kecamatan":"3522220","nama":"Kaliombo"},{"id":3522220004,"id_kecamatan":"3522220","nama":"Tlatah"},{"id":3522220005,"id_kecamatan":"3522220","nama":"Tinumpuk"},{"id":3522220006,"id_kecamatan":"3522220","nama":"Kuniran"},{"id":3522220007,"id_kecamatan":"3522220","nama":"Donan"},{"id":3522220008,"id_kecamatan":"3522220","nama":"Gapluk"},{"id":3522220010,"id_kecamatan":"3522220","nama":"Sedahkidul"},{"id":3522220011,"id_kecamatan":"3522220","nama":"Pojok"},{"id":3522220012,"id_kecamatan":"3522220","nama":"Purwosari"}]
+[{"id":3522220007,"id_kecamatan":"3522190","nama":"DONAN"},
+{"id":3522220008,"id_kecamatan":"3522190","nama":"GAPLUK"},
+{"id":3522220001,"id_kecamatan":"3522190","nama":"KALIOMBO"},
+{"id":3522220006,"id_kecamatan":"3522190","nama":"KUNIRAN"},
+{"id":3522220003,"id_kecamatan":"3522190","nama":"NGREJENG"},
+{"id":3522220002,"id_kecamatan":"3522190","nama":"PELEM"},
+{"id":3522220011,"id_kecamatan":"3522190","nama":"POJOK"},
+{"id":3522220009,"id_kecamatan":"3522190","nama":"PUNGGUR"},
+{"id":3522220012,"id_kecamatan":"3522190","nama":"PURWOSARI"},
+{"id":3522220010,"id_kecamatan":"3522190","nama":"SEDAHKIDUL"},
+{"id":3522220005,"id_kecamatan":"3522190","nama":"TINUMPUK"},
+{"id":3522220004,"id_kecamatan":"3522190","nama":"TLATAH"}]

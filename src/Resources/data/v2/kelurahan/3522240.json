@@ -1,1 +1,10 @@
-[{"id":3522240001,"id_kecamatan":"3522240","nama":"Batokan"},{"id":3522240003,"id_kecamatan":"3522240","nama":"Tembeling"},{"id":3522240004,"id_kecamatan":"3522240","nama":"Sidomukti"},{"id":3522240005,"id_kecamatan":"3522240","nama":"Besah"},{"id":3522240006,"id_kecamatan":"3522240","nama":"Sambeng"},{"id":3522240007,"id_kecamatan":"3522240","nama":"Ngaglik"},{"id":3522240008,"id_kecamatan":"3522240","nama":"Kasiman"},{"id":3522240009,"id_kecamatan":"3522240","nama":"Sekaran"},{"id":3522240010,"id_kecamatan":"3522240","nama":"Tambakmerak"}]
+[{"id":3522240001,"id_kecamatan":"3522190","nama":"BATOKAN"},
+{"id":3522240005,"id_kecamatan":"3522190","nama":"BESAH"},
+{"id":3522240002,"id_kecamatan":"3522190","nama":"BETET"},
+{"id":3522240008,"id_kecamatan":"3522190","nama":"KASIMAN"},
+{"id":3522240007,"id_kecamatan":"3522190","nama":"NGAGLIK"},
+{"id":3522240006,"id_kecamatan":"3522190","nama":"SAMBENG"},
+{"id":3522240009,"id_kecamatan":"3522190","nama":"SEKARAN"},
+{"id":3522240004,"id_kecamatan":"3522190","nama":"SIDOMUKTI"},
+{"id":3522240010,"id_kecamatan":"3522190","nama":"TAMBAKMERAK"},
+{"id":3522240003,"id_kecamatan":"3522190","nama":"TEMBELING"}]

@@ -1,1 +1,12 @@
-[{"id":3522170001,"id_kecamatan":"3522170","nama":"Kandangan"},{"id":3522170002,"id_kecamatan":"3522170","nama":"Sumbang Timun"},{"id":3522170003,"id_kecamatan":"3522170","nama":"Kanten"},{"id":3522170004,"id_kecamatan":"3522170","nama":"Pagerwesi"},{"id":3522170005,"id_kecamatan":"3522170","nama":"Padang"},{"id":3522170006,"id_kecamatan":"3522170","nama":"Sumberrejo"},{"id":3522170007,"id_kecamatan":"3522170","nama":"Mori"},{"id":3522170008,"id_kecamatan":"3522170","nama":"Tulungrejo"},{"id":3522170010,"id_kecamatan":"3522170","nama":"Guyangan"},{"id":3522170011,"id_kecamatan":"3522170","nama":"Sranak"},{"id":3522170012,"id_kecamatan":"3522170","nama":"Banjarsari"}]
+[{"id":3522170012,"id_kecamatan":"3522070","nama":"BANJARSARI"},
+{"id":3522170010,"id_kecamatan":"3522070","nama":"GUYANGAN"},
+{"id":3522170001,"id_kecamatan":"3522070","nama":"KANDANGAN"},
+{"id":3522170003,"id_kecamatan":"3522070","nama":"KANTEN"},
+{"id":3522170007,"id_kecamatan":"3522070","nama":"MORI"},
+{"id":3522170005,"id_kecamatan":"3522070","nama":"PADANG"},
+{"id":3522170004,"id_kecamatan":"3522070","nama":"PAGERWESI"},
+{"id":3522170011,"id_kecamatan":"3522070","nama":"SRANAK"},
+{"id":3522170002,"id_kecamatan":"3522070","nama":"SUMBANG TIMUN"},
+{"id":3522170006,"id_kecamatan":"3522070","nama":"SUMBERREJO"},
+{"id":3522170009,"id_kecamatan":"3522070","nama":"TRUCUK"},
+{"id":3522170008,"id_kecamatan":"3522070","nama":"TULUNGREJO"}]
