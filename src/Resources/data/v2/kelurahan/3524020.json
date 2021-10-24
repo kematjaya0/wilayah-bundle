@@ -1,1 +1,10 @@
-[{"id":3524020001,"id_kecamatan":"3524020","nama":"Banjargondang"},{"id":3524020002,"id_kecamatan":"3524020","nama":"Cangkring"},{"id":3524020003,"id_kecamatan":"3524020","nama":"Kuwurejo"},{"id":3524020004,"id_kecamatan":"3524020","nama":"Songowareng"},{"id":3524020005,"id_kecamatan":"3524020","nama":"Sumberbanjar"},{"id":3524020006,"id_kecamatan":"3524020","nama":"Primpen"},{"id":3524020007,"id_kecamatan":"3524020","nama":"Bronjong"},{"id":3524020009,"id_kecamatan":"3524020","nama":"Talunrejo"}]
+[
+{"id":3524020001,"id_kecamatan":"3524020","nama":"BANJARGONDANG"},
+{"id":3524020008,"id_kecamatan":"3524020","nama":"BLULUK"},
+{"id":3524020007,"id_kecamatan":"3524020","nama":"BRONJONG"},
+{"id":3524020002,"id_kecamatan":"3524020","nama":"CANGKRING"},
+{"id":3524020003,"id_kecamatan":"3524020","nama":"KUWUREJO"},
+{"id":3524020006,"id_kecamatan":"3524020","nama":"PRIMPEN"},
+{"id":3524020004,"id_kecamatan":"3524020","nama":"SONGOWARENG"},
+{"id":3524020005,"id_kecamatan":"3524020","nama":"SUMBERBANJAR"},
+{"id":3524020009,"id_kecamatan":"3524020","nama":"TALUNREJO"}]
