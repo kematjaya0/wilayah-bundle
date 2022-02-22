@@ -15,10 +15,12 @@ services:
         class: Kematjaya\WilayahBundle\Repository\ProvinsiRepository
         tags: 
             - doctrine.repository_service
-#    Kematjaya\WilayahBundle\Repository\KelurahanRepository:
-#        class: Kematjaya\WilayahBundle\Repository\KelurahanRepository
-#        tags: 
-#            - doctrine.repository_service
+            
+    Kematjaya\WilayahBundle\Console\DataConsole:
+        class: Kematjaya\WilayahBundle\Console\DataConsole
+        tags:
+            -  { name: console.command }
+            
     Kematjaya\WilayahBundle\Repository\DesaRepository:
         class: Kematjaya\WilayahBundle\Repository\DesaRepository
         tags: 
