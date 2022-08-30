@@ -1,1 +1,69 @@
-[{"id":3515140001,"id_kecamatan":"3515140","nama":"Medaeng"},{"id":3515140002,"id_kecamatan":"3515140","nama":"Pepelegi"},{"id":3515140003,"id_kecamatan":"3515140","nama":"Waru"},{"id":3515140004,"id_kecamatan":"3515140","nama":"Kureksari"},{"id":3515140005,"id_kecamatan":"3515140","nama":"Ngingas"},{"id":3515140006,"id_kecamatan":"3515140","nama":"Tropodo"},{"id":3515140007,"id_kecamatan":"3515140","nama":"Tambak Sawah"},{"id":3515140008,"id_kecamatan":"3515140","nama":"Tambak Rejo"},{"id":3515140009,"id_kecamatan":"3515140","nama":"Tambak Oso"},{"id":3515140010,"id_kecamatan":"3515140","nama":"Tambak Sumur"},{"id":3515140011,"id_kecamatan":"3515140","nama":"Wadungasri"},{"id":3515140013,"id_kecamatan":"3515140","nama":"Kepuh Kiriman"},{"id":3515140014,"id_kecamatan":"3515140","nama":"Wedoro"},{"id":3515140015,"id_kecamatan":"3515140","nama":"Janti"},{"id":3515140016,"id_kecamatan":"3515140","nama":"Kedungrejo"},{"id":3515140017,"id_kecamatan":"3515140","nama":"Bungurasih"}]
+[{
+        "id": 3515140001,
+        "id_kecamatan": "3515140",
+        "nama": "Medaeng"
+    }, {
+        "id": 3515140002,
+        "id_kecamatan": "3515140",
+        "nama": "Pepelegi"
+    }, {
+        "id": 3515140003,
+        "id_kecamatan": "3515140",
+        "nama": "Waru"
+    }, {
+        "id": 3515140004,
+        "id_kecamatan": "3515140",
+        "nama": "Kureksari"
+    }, {
+        "id": 3515140005,
+        "id_kecamatan": "3515140",
+        "nama": "Ngingas"
+    }, {
+        "id": 3515140006,
+        "id_kecamatan": "3515140",
+        "nama": "Tropodo"
+    }, {
+        "id": 3515140007,
+        "id_kecamatan": "3515140",
+        "nama": "Tambak Sawah"
+    }, {
+        "id": 3515140008,
+        "id_kecamatan": "3515140",
+        "nama": "Tambak Rejo"
+    }, {
+        "id": 3515140009,
+        "id_kecamatan": "3515140",
+        "nama": "Tambak Oso"
+    }, {
+        "id": 3515140010,
+        "id_kecamatan": "3515140",
+        "nama": "Tambak Sumur"
+    }, {
+        "id": 3515140011,
+        "id_kecamatan": "3515140",
+        "nama": "Wadungasri"
+    }, {
+        "id": 3515140013,
+        "id_kecamatan": "3515140",
+        "nama": "Kepuh Kiriman"
+    }, {
+        "id": 3515140014,
+        "id_kecamatan": "3515140",
+        "nama": "Wedoro"
+    }, {
+        "id": 3515140015,
+        "id_kecamatan": "3515140",
+        "nama": "Janti"
+    }, {
+        "id": 3515140016,
+        "id_kecamatan": "3515140",
+        "nama": "Kedungrejo"
+    }, {
+        "id": 3515140017,
+        "id_kecamatan": "3515140",
+        "nama": "Bungurasih"
+    }, {
+        "id": 351514012,
+        "id_kecamatan": "3515140",
+        "nama": "Berbek"
+    }]
