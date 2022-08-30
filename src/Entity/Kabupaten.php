@@ -40,7 +40,7 @@ class Kabupaten
      * @ORM\OneToMany(targetEntity=Kecamatan::class, mappedBy="kabupaten", orphanRemoval=true)
      */
     private $kecamatans;
-
+    
     public function __construct()
     {
         $this->kecamatans = new ArrayCollection();

@@ -14,7 +14,7 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  */
 class VillageSourceReader implements VillageSourceReaderInterface
 {
-    public function filterByDistrictId(string $regionId, array $ids = []): array 
+    public function filterByDistrictId(string $regionId, string $kabupatenId, array $ids = []): array 
     {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data/v2/kelurahan';
         

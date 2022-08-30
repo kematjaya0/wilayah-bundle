@@ -13,5 +13,5 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  */
 interface VillageSourceReaderInterface
 {
-    public function filterByDistrictId(string $regionId, array $ids = []): array;
+    public function filterByDistrictId(string $districtId, string $regionId, array $ids = []): array;
 }
