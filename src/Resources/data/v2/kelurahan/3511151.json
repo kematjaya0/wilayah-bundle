@@ -1,1 +1,25 @@
-[{"id":3511151001,"id_kecamatan":"3511151","nama":"Sempol"},{"id":3511151002,"id_kecamatan":"3511151","nama":"Kalianyar"},{"id":3511151003,"id_kecamatan":"3511151","nama":"Kalisat"},{"id":3511151004,"id_kecamatan":"3511151","nama":"Jampit"},{"id":3511151005,"id_kecamatan":"3511151","nama":"Sumber Rejo"},{"id":3511151006,"id_kecamatan":"3511151","nama":"Kaligedang"}]
+[{
+        "id": 3511151001,
+        "id_kecamatan": "3511151",
+        "nama": "Sempol"
+    }, {
+        "id": 3511151002,
+        "id_kecamatan": "3511151",
+        "nama": "Kalianyar"
+    }, {
+        "id": 3511151003,
+        "id_kecamatan": "3511151",
+        "nama": "Kalisat"
+    }, {
+        "id": 3511151004,
+        "id_kecamatan": "3511151",
+        "nama": "Jampit"
+    }, {
+        "id": 3511151005,
+        "id_kecamatan": "3511151",
+        "nama": "Sumber Rejo"
+    }, {
+        "id": 3511151006,
+        "id_kecamatan": "3511151",
+        "nama": "Kaligedang"
+    }]
