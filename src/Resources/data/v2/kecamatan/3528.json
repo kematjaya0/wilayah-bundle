@@ -1,1 +1,53 @@
-[{"id":3528010,"id_kota":"3528","nama":"Tlanakan"},{"id":3528020,"id_kota":"3528","nama":"Pademawu"},{"id":3528030,"id_kota":"3528","nama":"Galis"},{"id":3528040,"id_kota":"3528","nama":"Larangan"},{"id":3528050,"id_kota":"3528","nama":"Pamekasan"},{"id":3528060,"id_kota":"3528","nama":"Proppo"},{"id":3528070,"id_kota":"3528","nama":"Palengaan"},{"id":3528080,"id_kota":"3528","nama":"Pegantenan"},{"id":3528090,"id_kota":"3528","nama":"Kadur"},{"id":3528100,"id_kota":"3528","nama":"Pakong"},{"id":3528110,"id_kota":"3528","nama":"Waru"},{"id":3528120,"id_kota":"3528","nama":"Batu Marmar"},{"id":3528130,"id_kota":"3528","nama":"Pasean"}]
+[{
+        "id": 3528010,
+        "id_kota": "3528",
+        "nama": "Tlanakan"
+    }, {
+        "id": 3528020,
+        "id_kota": "3528",
+        "nama": "Pademawu"
+    }, {
+        "id": 3528030,
+        "id_kota": "3528",
+        "nama": "Galis"
+    }, {
+        "id": 3528040,
+        "id_kota": "3528",
+        "nama": "Larangan"
+    }, {
+        "id": 3528050,
+        "id_kota": "3528",
+        "nama": "Pamekasan"
+    }, {
+        "id": 3528060,
+        "id_kota": "3528",
+        "nama": "Proppo"
+    }, {
+        "id": 3528070,
+        "id_kota": "3528",
+        "nama": "Palengaan"
+    }, {
+        "id": 3528080,
+        "id_kota": "3528",
+        "nama": "Pegantenan"
+    }, {
+        "id": 3528090,
+        "id_kota": "3528",
+        "nama": "Kadur"
+    }, {
+        "id": 3528100,
+        "id_kota": "3528",
+        "nama": "Pakong"
+    }, {
+        "id": 3528110,
+        "id_kota": "3528",
+        "nama": "Waru"
+    }, {
+        "id": 3528120,
+        "id_kota": "3528",
+        "nama": "Batu Marmar"
+    }, {
+        "id": 3528130,
+        "id_kota": "3528",
+        "nama": "Pasean"
+    }]
