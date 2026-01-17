@@ -1,11 +1,9 @@
 <?php
 
-/**
- * This file is part of the wilayah-bundle.
- */
 
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Doctrine\Persistence\ObjectManager;
 use Kematjaya\WilayahBundle\SourceReader\KelurahanSourceReaderInterface;
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Kematjaya\WilayahBundle\Entity\Kelurahan;
@@ -20,44 +18,30 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class KelurahanFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
-    /**
-     * 
-     * @var KecamatanRepository
-     */
-    private $kecamatanRepo;
-    
-    /**
-     * 
-     * @var KelurahanSourceReaderInterface
-     */
-    private $kelurahanSourceReader;
-    
-    public function __construct(KecamatanRepository $kecamatanRepo, KelurahanSourceReaderInterface $kelurahanSourceReader) 
+    public function __construct(private KecamatanRepository $kecamatanRepo, private KelurahanSourceReaderInterface $kelurahanSourceReader)
     {
-        $this->kecamatanRepo = $kecamatanRepo;
-        $this->kelurahanSourceReader = $kelurahanSourceReader;
     }
     
-    public function load(\Doctrine\Persistence\ObjectManager $manager) 
+    public function load(ObjectManager $manager) :void
     {
-//        $kelurahans = $this->kelurahanSourceReader->read();
-//        $kecamatans = $this->kecamatanRepo->findAll();
-//        foreach ($kecamatans as $kecamatan) {
-//            $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
-//                
-//                return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
-//            });
-//            foreach ($kels as $kel) {
-//                $kelurahan = new Kelurahan();
-//                $kelurahan->setCode($kel['kode'])
-//                        ->setName($kel['nama'])
-//                        ->setKecamatan($kecamatan);
-//                
-//                $manager->persist($kelurahan);
-//            }
-//        }
-//        
-//        $manager->flush();
+        $kelurahans = $this->kelurahanSourceReader->read();
+        $kecamatans = $this->kecamatanRepo->findAll();
+        foreach ($kecamatans as $kecamatan) {
+            $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
+
+                return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
+            });
+            foreach ($kels as $kel) {
+                $kelurahan = new Kelurahan();
+                $kelurahan->setCode($kel['kode'])
+                        ->setName($kel['nama'])
+                        ->setKecamatan($kecamatan);
+
+                $manager->persist($kelurahan);
+            }
+        }
+
+        $manager->flush();
     }
     
     public static function getGroups(): array 
@@ -65,7 +49,7 @@ class KelurahanFixtures extends Fixture implements FixtureGroupInterface, Depend
         return ['wilayah'];
     }
 
-    public function getDependencies() 
+    public function getDependencies() :array
     {
         return [
             WilayahFixtures::class

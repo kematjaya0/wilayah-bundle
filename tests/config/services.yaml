@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Doctrine\Persistence\ManagerRegistry:
+    class: Kematjaya\WilayahBundle\Tests\Utils\ManagerRegistryTest
+
+  Doctrine\ORM\EntityManagerInterface:
+    class: Kematjaya\WilayahBundle\Tests\Utils\EntityManager

@@ -1,11 +1,8 @@
 <?php
 
-/**
- * This file is part of the wilayah-bundle.
- */
-
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Doctrine\Persistence\ObjectManager;
 use Kematjaya\WilayahBundle\Entity\Kecamatan;
 use Kematjaya\WilayahBundle\Entity\Kabupaten;
 use Kematjaya\WilayahBundle\Entity\Provinsi;
@@ -24,35 +21,15 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class WilayahFixtures extends Fixture implements FixtureGroupInterface
 {
     private $configs = [];
+
     
-    /**
-     * 
-     * @var ProvinceSourceReaderInterface
-     */
-    private $provinceSourceReader;
-    
-    /**
-     * 
-     * @var RegionSourceReaderInterface
-     */
-    private $regionSourceReader;
-    
-    /**
-     * 
-     * @var DistrictSourceReaderInterface
-     */
-    private $districtSourceReader;
-    
-    public function __construct(ParameterBagInterface $bag, DistrictSourceReaderInterface $districtSourceReader, RegionSourceReaderInterface $regionSourceReader, ProvinceSourceReaderInterface $provinceSourceReader) 
+    public function __construct(private ParameterBagInterface $bag, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
     {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
-        $this->provinceSourceReader = $provinceSourceReader;
-        $this->regionSourceReader = $regionSourceReader;
-        $this->districtSourceReader = $districtSourceReader;
     }
     
-    public function load(\Doctrine\Persistence\ObjectManager $manager) 
+    public function load(ObjectManager $manager) :void
     {
         $provinsis = $this->provinceSourceReader->findAll(
             $this->configs['provinsi']

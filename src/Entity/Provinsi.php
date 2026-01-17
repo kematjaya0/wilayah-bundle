@@ -6,33 +6,26 @@ use Kematjaya\WilayahBundle\Repository\ProvinsiRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass=ProvinsiRepository::class)
- */
+#[ORM\Entity(repositoryClass:ProvinsiRepository::class)]
 class Provinsi
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator::class)
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $code;
+    #[ORM\Column(length: 255)]
+    private ?string $code;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Kabupaten::class, mappedBy="provinsi", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Kabupaten::class, mappedBy: 'provinsi', orphanRemoval: true)]
     private $kabupatens;
 
     public function __construct()
@@ -45,7 +38,7 @@ class Provinsi
         return $this->getName();
     }
     
-    public function getId(): ?\Symfony\Component\Uid\Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

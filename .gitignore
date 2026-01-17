@@ -3,3 +3,5 @@ vendor/
 composer.lock
 /nbproject/
 /var/
+.idea
+.phpunit.result.cache

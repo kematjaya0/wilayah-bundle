@@ -1,11 +1,8 @@
 <?php
 
-/**
- * This file is part of the wilayah-bundle.
- */
-
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Doctrine\Persistence\ObjectManager;
 use Kematjaya\WilayahBundle\Entity\Desa;
 use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
@@ -21,25 +18,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface 
 {
     
-    /**
-     * 
-     * @var KecamatanRepository
-     */
-    private $kecamatanRepo;
-    
-    /**
-     * 
-     * @var VillageSourceReaderInterface
-     */
-    private $villageSourceReader;
-    
-    public function __construct(KecamatanRepository $kecamatanRepo, VillageSourceReaderInterface $villageSourceReader) 
+    public function __construct(private KecamatanRepository $kecamatanRepo, private VillageSourceReaderInterface $villageSourceReader)
     {
-        $this->kecamatanRepo = $kecamatanRepo;
-        $this->villageSourceReader = $villageSourceReader;
     }
     
-    public function load(\Doctrine\Persistence\ObjectManager $manager) 
+    public function load(ObjectManager $manager) :void
     {
         $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
@@ -68,7 +51,7 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
         return ['wilayah'];
     }
 
-    public function getDependencies() 
+    public function getDependencies() :array
     {
         return [
             WilayahFixtures::class

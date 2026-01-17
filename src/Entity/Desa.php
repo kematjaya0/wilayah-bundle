@@ -4,42 +4,33 @@ namespace Kematjaya\WilayahBundle\Entity;
 
 use Kematjaya\WilayahBundle\Repository\DesaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass=DesaRepository::class)
- */
+#[ORM\Entity(repositoryClass:DesaRepository::class)]
 class Desa
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator::class)
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $code;
+    #[ORM\Column(length: 255)]
+    private ?string $code;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Kecamatan::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Kecamatan::class)]
     private $kecamatan;
-    
-    /**
-     * @ORM\JoinColumn(nullable=true)
-     * @ORM\ManyToOne(targetEntity=Kelurahan::class)
-     */
+
+    #[ORM\ManyToOne(targetEntity: Kelurahan::class)]
+    #[ORM\JoinColumn(nullable: false)]
     private $kelurahan;
     
-    public function getId(): ?\Symfony\Component\Uid\Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }

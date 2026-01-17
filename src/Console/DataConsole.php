@@ -36,49 +36,14 @@ class DataConsole extends Command
     
     private $configs = [];
     
-    /**
-     * 
-     * @var ProvinceSourceReaderInterface
-     */
-    private $provinceSourceReader;
-    
-    /**
-     * 
-     * @var RegionSourceReaderInterface
-     */
-    private $regionSourceReader;
-    
-    /**
-     * 
-     * @var DistrictSourceReaderInterface
-     */
-    private $districtSourceReader;
-    
-    /**
-     * 
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    
-    /**
-     * 
-     * @var VillageSourceReaderInterface
-     */
-    private $villageSourceReader;
-    
-    public function __construct(ParameterBagInterface $bag, EntityManagerInterface $entityManager, VillageSourceReaderInterface $villageSourceReader, DistrictSourceReaderInterface $districtSourceReader, RegionSourceReaderInterface $regionSourceReader, ProvinceSourceReaderInterface $provinceSourceReader, mixed $name = null) 
+    public function __construct(private ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader, mixed $name = null)
     {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
-        $this->entityManager = $entityManager;
-        $this->villageSourceReader = $villageSourceReader;
-        $this->districtSourceReader = $districtSourceReader;
-        $this->provinceSourceReader = $provinceSourceReader;
-        $this->regionSourceReader = $regionSourceReader;
         parent::__construct($name);
     }
     
-    protected function configure()
+    protected function configure():void
     {
         $this
             ->addOption(

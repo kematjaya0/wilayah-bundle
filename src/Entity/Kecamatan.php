@@ -4,37 +4,30 @@ namespace Kematjaya\WilayahBundle\Entity;
 
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
-/**
- * @ORM\Entity(repositoryClass=KecamatanRepository::class)
- */
+#[ORM\Entity(repositoryClass:KecamatanRepository::class)]
 class Kecamatan
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator::class)
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private ?Uuid $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $code;
+    #[ORM\Column(length: 255)]
+    private ?string $code;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Kabupaten::class, inversedBy="kecamatans")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Kabupaten::class, inversedBy: "kecamatans")]
+    #[ORM\JoinColumn(nullable: false)]
     private $kabupaten;
 
-    public function getId(): ?\Symfony\Component\Uid\Uuid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
