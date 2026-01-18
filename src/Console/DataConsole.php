@@ -56,6 +56,7 @@ class DataConsole extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        ini_set('memory_limit', '2048M');
         $io = new SymfonyStyle($input, $output);
         try {
             $data = array_map(function ($row) {
@@ -67,25 +68,25 @@ class DataConsole extends Command
 
                 return $row;
             }, $input->getOption('data', []));
-            
+
             $provinsis = $this->provinceSourceReader->findAll(
                 $this->configs['provinsi']
             );
             foreach ($provinsis as $prov) {
-                
+
                 $io->info(
                     sprintf("processing: '%s'", strtoupper($prov['nama']))
                 );
-                
+
                 $object = $this->entityManager->getRepository(Provinsi::class)->findOneBy([
                     'code' => $prov['id']
-                ]); 
+                ]);
                 if (null === $object) {
                     $object = new Provinsi();
                 }
 
                 $object->setCode($prov['id'])
-                        ->setName(strtoupper($prov['nama']));
+                    ->setName(strtoupper($prov['nama']));
 
                 $this->entityManager->persist($object);
                 if (!in_array('kabupaten', $data)) {
@@ -96,14 +97,14 @@ class DataConsole extends Command
                 foreach ($kabupatens as $kabupaten) {
                     $kabObject = $this->entityManager->getRepository(Kabupaten::class)->findOneBy([
                         'code' => $kabupaten['id'], 'provinsi' => $object
-                    ]); 
+                    ]);
                     if (null === $kabObject) {
                         $kabObject = new Kabupaten();
                         $kabObject->setProvinsi($object)
                             ->setCode($kabupaten['id']);
                     }
                     $kabObject
-                            ->setName(strtoupper($kabupaten['nama']));
+                        ->setName(strtoupper($kabupaten['nama']));
 
                     $this->entityManager->persist($kabObject);
                     if (!in_array('kecamatan', $data)) {
@@ -111,10 +112,11 @@ class DataConsole extends Command
                     }
 
                     $kecamatans = $this->districtSourceReader->filterByRegionId($kabupaten['id'], $this->configs['kecamatan']);
+                    $io->title(sprintf("kabupaten %s, total %s kecamatan", $kabObject->getName(), count($kecamatans)));
                     foreach ($kecamatans as $kecamatan) {
                         $kecObject = $this->entityManager->getRepository(Kecamatan::class)->findOneBy([
                             'code' => $kecamatan['id'], 'kabupaten' => $kabObject
-                        ]); 
+                        ]);
                         if (null === $kecObject) {
                             $kecObject = new Kecamatan();
                             $kecObject->setKabupaten($kabObject)
@@ -122,7 +124,7 @@ class DataConsole extends Command
                         }
 
                         $kecObject
-                                ->setName(strtoupper($kecamatan['nama']));
+                            ->setName(strtoupper($kecamatan['nama']));
 
                         $this->entityManager->persist($kecObject);
                         if (!in_array('desa', $data)) {
@@ -133,7 +135,7 @@ class DataConsole extends Command
                         foreach ($villages as $village) {
                             $desaObject = $this->entityManager->getRepository(Desa::class)->findOneBy([
                                 'code' => $kecamatan['id'], 'kecamatan' => $kecObject
-                            ]); 
+                            ]);
                             if (null === $desaObject) {
                                 $desaObject = new Desa();
                                 $desaObject->setKecamatan($kecObject)
@@ -141,28 +143,43 @@ class DataConsole extends Command
                             }
 
                             $desaObject
-                                    ->setName(strtoupper($village['nama']));
+                                ->setName(strtoupper($village['nama']));
 
                             $this->entityManager->persist($desaObject);
                         }
 
                         if (true === $this->autoFlush) {
                             $this->entityManager->flush();
+                            $this->entityManager->clear();
+                            $kecObject = $this->entityManager->getReference(Kecamatan::class, $kecObject->getId());
+                            $kabObject = $kecObject->getKabupaten();
+                            $object = $kabObject->getProvinsi();
                         }
                     }
+                    if (true === $this->autoFlush) {
+                        $this->entityManager->flush();
+                        $this->entityManager->clear();
+                        $kabObject = $this->entityManager->getReference(Kabupaten::class, $kabObject->getId());
+                        $object = $kabObject->getProvinsi();
+                    }
+                }
+
+                if (true === $this->autoFlush) {
+                    $this->entityManager->flush();
+                    $this->entityManager->clear();
                 }
             }
 
             $this->entityManager->flush();
-            
+            $this->entityManager->clear();
         } catch (\Exception $ex) {
-            $io->error($ex->getMessage());
-            
+            $io->error(sprintf("error: %s", $ex->getMessage()));
+
             return self::FAILURE;
         }
-        
+
         $io->info("success");
-        
+
         return self::SUCCESS;
     }
 }
