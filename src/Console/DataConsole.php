@@ -32,11 +32,13 @@ class DataConsole extends Command
     private $data = ['provinsi', 'kabupaten', 'kecamatan', 'desa'];
     
     private $configs = [];
+    private ?bool $autoFlush = true;
     
-    public function __construct(private ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
+    public function __construct(ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
     {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
+        $this->autoFlush = $configs['auto-flush'];
         parent::__construct();
     }
     
@@ -142,6 +144,10 @@ class DataConsole extends Command
                                     ->setName(strtoupper($village['nama']));
 
                             $this->entityManager->persist($desaObject);
+                        }
+
+                        if (true === $this->autoFlush) {
+                            $this->entityManager->flush();
                         }
                     }
                 }

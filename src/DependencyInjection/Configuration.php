@@ -24,6 +24,9 @@ class Configuration implements ConfigurationInterface
     public function addRouteConfig(NodeBuilder $node)
     {
         $node
+            ->booleanNode("auto-flush")
+                ->defaultTrue()
+            ->end()
             ->arrayNode('filter')
                 ->addDefaultsIfNotSet()
                 ->children()
