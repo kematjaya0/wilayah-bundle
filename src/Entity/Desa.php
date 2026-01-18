@@ -27,7 +27,7 @@ class Desa
     private $kecamatan;
 
     #[ORM\ManyToOne(targetEntity: Kelurahan::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $kelurahan;
     
     public function getId(): ?Uuid
