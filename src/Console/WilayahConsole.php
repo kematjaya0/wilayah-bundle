@@ -7,6 +7,7 @@
 
 namespace Kematjaya\WilayahBundle\Console;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,25 +16,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * Description of WilayahConsole
- *
- * @author guest
- */
+#[AsCommand(
+    name: 'wilayah:download'
+)]
 class WilayahConsole extends Command
 {
-    protected static $defaultName = 'wilayah:download';
-    
-    /**
-     * 
-     * @var HttpClientInterface
-     */
-    private $httpClient;
-    
-    public function __construct(mixed $name = null, HttpClientInterface $httpClient) 
+    public function __construct(private HttpClientInterface $httpClient)
     {
-        $this->httpClient = $httpClient;
-        parent::__construct($name);
+        parent::__construct();
     }
     
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -54,6 +44,7 @@ class WilayahConsole extends Command
                 $this->getKota($provinsi);
             }
         } catch (\Exception $ex) {
+            $io->error($ex->getMessage());
             return [
                 'error' => $ex->getMessage()
             ];

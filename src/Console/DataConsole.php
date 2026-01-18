@@ -15,6 +15,7 @@ use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
 use Kematjaya\WilayahBundle\SourceReader\DistrictSourceReaderInterface;
 use Kematjaya\WilayahBundle\SourceReader\RegionSourceReaderInterface;
 use Kematjaya\WilayahBundle\SourceReader\ProvinceSourceReaderInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,24 +24,20 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-/**
- * Description of DataConsole
- *
- * @author guest
- */
+#[AsCommand(
+    name: 'wilayah:insert'
+)]
 class DataConsole extends Command 
 {
-    protected static $defaultName = 'wilayah:insert';
-    
     private $data = ['provinsi', 'kabupaten', 'kecamatan', 'desa'];
     
     private $configs = [];
     
-    public function __construct(private ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader, mixed $name = null)
+    public function __construct(private ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
     {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
-        parent::__construct($name);
+        parent::__construct();
     }
     
     protected function configure():void

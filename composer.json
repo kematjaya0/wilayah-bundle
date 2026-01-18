@@ -14,7 +14,8 @@
         "doctrine/orm": "^3.5",
         "symfony/uid": "^8.0",
         "symfony/doctrine-bridge": "^8.0",
-        "symfony/yaml": "^8.0"
+        "symfony/yaml": "^8.0",
+        "symfony/http-client": "^8.0"
     },
     "autoload": {
         "psr-4": {
