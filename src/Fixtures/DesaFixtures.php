@@ -9,6 +9,7 @@ use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * @package Kematjaya\WilayahBundle\Fixtures
@@ -17,9 +18,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface 
 {
-    
-    public function __construct(private KecamatanRepository $kecamatanRepo, private VillageSourceReaderInterface $villageSourceReader)
+    private $configs = [];
+    public function __construct(ParameterBagInterface $bag, private KecamatanRepository $kecamatanRepo, private VillageSourceReaderInterface $villageSourceReader)
     {
+        $configs = $bag->get('wilayah');
+        $this->configs = $configs['filter'];
     }
     
     public function load(ObjectManager $manager) :void
@@ -27,7 +30,7 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
         $kecamatans = $this->kecamatanRepo->findAll();
         foreach ($kecamatans as $kecamatan) {
             try {
-                $villages = $this->villageSourceReader->filterByDistrictId($kecamatan->getCode(), $kecamatan->getKabupaten()->getCode());
+                $villages = $this->villageSourceReader->filterByDistrictId($kecamatan->getCode(), $this->configs['desa']);
             } catch (\Exception $ex) {
                 dump($ex->getMessage());
                 continue;
@@ -41,9 +44,10 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
                 
                 $manager->persist($kelurahan);
             }
+
+            $manager->flush();
+            $manager->clear();;
         }
-        
-        $manager->flush();
     }
     
     public static function getGroups(): array 

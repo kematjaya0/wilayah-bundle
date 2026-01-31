@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('provinsi')->defaultValue([])->prototype('scalar')->end()->end()
                     ->arrayNode('kabupaten')->defaultValue([])->prototype('scalar')->end()->end()
                     ->arrayNode('kecamatan')->defaultValue([])->prototype('scalar')->end()->end()
+                    ->arrayNode('desa')->defaultValue([])->prototype('scalar')->end()->end()
                 ->end();
     }
 

@@ -22,8 +22,7 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
 {
     private $configs = [];
 
-    
-    public function __construct(private ParameterBagInterface $bag, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
+    public function __construct(ParameterBagInterface $bag, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
     {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
@@ -57,9 +56,9 @@ class WilayahFixtures extends Fixture implements FixtureGroupInterface
                     
                     $manager->persist($kecObject);
                 }
+
+                $manager->flush();
             }
-            
-            $manager->flush();
         }
     }
     

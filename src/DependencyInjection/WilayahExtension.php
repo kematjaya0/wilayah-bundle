@@ -1,9 +1,5 @@
 <?php
 
-/**
- * This file is part of the wilayah-bundle.
- */
-
 namespace Kematjaya\WilayahBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
