@@ -3,13 +3,14 @@
 
 namespace Kematjaya\WilayahBundle\Fixtures;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Kematjaya\WilayahBundle\SourceReader\KelurahanSourceReaderInterface;
 use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
-use Kematjaya\WilayahBundle\Entity\Kelurahan;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @package Kematjaya\WilayahBundle\Fixtures
@@ -18,33 +19,37 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class KelurahanFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
-    public function __construct(private KecamatanRepository $kecamatanRepo, private KelurahanSourceReaderInterface $kelurahanSourceReader)
+    public function __construct(private EntityManagerInterface $em, private KecamatanRepository $kecamatanRepo, private KelurahanSourceReaderInterface $kelurahanSourceReader)
     {
     }
-    
+
     public function load(ObjectManager $manager) :void
     {
+        $con = $this->em->getConnection();
         $kelurahans = $this->kelurahanSourceReader->read();
-        $kecamatans = $this->kecamatanRepo->findAll();
+        $kecamatans = $this->kecamatanRepo->createQueryBuilder('t')
+            ->select('t.id, t.code')
+            ->getQuery()->getResult();
         foreach ($kecamatans as $kecamatan) {
             $kels = array_filter($kelurahans, function ($kecRow) use ($kecamatan) {
 
-                return (preg_match("/^" . $kecamatan->getCode() . "/i", $kecRow['kode']));
+                return (preg_match("/^" . $kecamatan['code'] . "/i", $kecRow['kode']));
             });
             foreach ($kels as $kel) {
-                $kelurahan = new Kelurahan();
-                $kelurahan->setCode($kel['kode'])
-                        ->setName($kel['nama'])
-                        ->setKecamatan($kecamatan);
-
-                $manager->persist($kelurahan);
+                $provId = (string)Uuid::v7();
+                $con->insert('kelurahan', [
+                    'id' => $provId,
+                    'code' => $kel['kode'],
+                    'name' => strtoupper($kel['nama']),
+                    'kecamatan_id' => $kecamatan['id']
+                ]);
             }
         }
 
         $manager->flush();
     }
-    
-    public static function getGroups(): array 
+
+    public static function getGroups(): array
     {
         return ['wilayah'];
     }
