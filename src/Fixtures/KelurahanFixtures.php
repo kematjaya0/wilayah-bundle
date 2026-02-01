@@ -10,6 +10,7 @@ use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -19,12 +20,19 @@ use Symfony\Component\Uid\Uuid;
  */
 class KelurahanFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
-    public function __construct(private EntityManagerInterface $em, private KecamatanRepository $kecamatanRepo, private KelurahanSourceReaderInterface $kelurahanSourceReader)
+    private array $configs = [];
+    public function __construct(ParameterBagInterface $bag, private EntityManagerInterface $em, private KecamatanRepository $kecamatanRepo, private KelurahanSourceReaderInterface $kelurahanSourceReader)
     {
+        $configs = $bag->get('wilayah');
+        $this->configs = $configs['filter'];
     }
 
     public function load(ObjectManager $manager) :void
     {
+        if (!$this->configs['include-kelurahan']) {
+            return;
+        }
+
         $con = $this->em->getConnection();
         $kelurahans = $this->kelurahanSourceReader->read();
         $kecamatans = $this->kecamatanRepo->createQueryBuilder('t')

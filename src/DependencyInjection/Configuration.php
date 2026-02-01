@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('kabupaten')->defaultValue([])->prototype('scalar')->end()->end()
                     ->arrayNode('kecamatan')->defaultValue([])->prototype('scalar')->end()->end()
                     ->arrayNode('desa')->defaultValue([])->prototype('scalar')->end()->end()
+                    ->booleanNode("include-kelurahan")->defaultTrue()->end()
                 ->end();
     }
 
