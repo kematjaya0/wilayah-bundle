@@ -11,31 +11,31 @@ use Symfony\Component\Config\Definition\Builder\NodeBuilder;
  */
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder(): TreeBuilder 
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('wilayah');
         $rootNode = $treeBuilder->getRootNode();
-        
+
         $this->addRouteConfig($rootNode->children());
-        
+
         return $treeBuilder;
     }
-    
+
     public function addRouteConfig(NodeBuilder $node)
     {
         $node
             ->booleanNode("auto-flush")
-                ->defaultTrue()
+            ->defaultTrue()
             ->end()
+            ->booleanNode("include_kelurahan")->defaultTrue()->end()
             ->arrayNode('filter')
-                ->addDefaultsIfNotSet()
-                ->children()
-                    ->arrayNode('provinsi')->defaultValue([])->prototype('scalar')->end()->end()
-                    ->arrayNode('kabupaten')->defaultValue([])->prototype('scalar')->end()->end()
-                    ->arrayNode('kecamatan')->defaultValue([])->prototype('scalar')->end()->end()
-                    ->arrayNode('desa')->defaultValue([])->prototype('scalar')->end()->end()
-                    ->booleanNode("include-kelurahan")->defaultTrue()->end()
-                ->end();
+            ->addDefaultsIfNotSet()
+            ->children()
+            ->arrayNode('provinsi')->defaultValue([])->prototype('scalar')->end()->end()
+            ->arrayNode('kabupaten')->defaultValue([])->prototype('scalar')->end()->end()
+            ->arrayNode('kecamatan')->defaultValue([])->prototype('scalar')->end()->end()
+            ->arrayNode('desa')->defaultValue([])->prototype('scalar')->end()->end()
+            ->end();
     }
 
 }

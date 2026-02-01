@@ -23,13 +23,12 @@ class KelurahanFixtures extends Fixture implements FixtureGroupInterface, Depend
     private array $configs = [];
     public function __construct(ParameterBagInterface $bag, private EntityManagerInterface $em, private KecamatanRepository $kecamatanRepo, private KelurahanSourceReaderInterface $kelurahanSourceReader)
     {
-        $configs = $bag->get('wilayah');
-        $this->configs = $configs['filter'];
+        $this->configs = $bag->get('wilayah');
     }
 
     public function load(ObjectManager $manager) :void
     {
-        if (!$this->configs['include-kelurahan']) {
+        if (!$this->configs['include_kelurahan']) {
             return;
         }
 
