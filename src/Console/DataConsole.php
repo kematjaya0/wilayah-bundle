@@ -7,6 +7,7 @@
 
 namespace Kematjaya\WilayahBundle\Console;
 
+use Doctrine\ORM\NoResultException;
 use Kematjaya\WilayahBundle\Entity\Provinsi;
 use Kematjaya\WilayahBundle\Entity\Kabupaten;
 use Kematjaya\WilayahBundle\Entity\Kecamatan;
@@ -23,17 +24,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Uid\Uuid;
 
 #[AsCommand(
     name: 'wilayah:insert'
 )]
-class DataConsole extends Command 
+class DataConsole extends Command
 {
     private $data = ['provinsi', 'kabupaten', 'kecamatan', 'desa'];
-    
+
     private $configs = [];
     private ?bool $autoFlush = true;
-    
+
     public function __construct(ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
     {
         $configs = $bag->get('wilayah');
@@ -41,23 +43,24 @@ class DataConsole extends Command
         $this->autoFlush = $configs['auto-flush'];
         parent::__construct();
     }
-    
+
     protected function configure():void
     {
         $this
             ->addOption(
-                    'data', 
-                    null, 
-                    InputOption::VALUE_IS_ARRAY|InputOption::VALUE_OPTIONAL,
-                    'Which data will you insert ?',
-                    $this->data
-                );
+                'data',
+                null,
+                InputOption::VALUE_IS_ARRAY|InputOption::VALUE_OPTIONAL,
+                'Which data will you insert ?',
+                $this->data
+            );
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         ini_set('memory_limit', '2048M');
         $io = new SymfonyStyle($input, $output);
+        $con = $this->entityManager->getConnection();
         try {
             $data = array_map(function ($row) {
                 if (!in_array($row, $this->data)) {
@@ -78,95 +81,115 @@ class DataConsole extends Command
                     sprintf("processing: '%s'", strtoupper($prov['nama']))
                 );
 
-                $object = $this->entityManager->getRepository(Provinsi::class)->findOneBy([
-                    'code' => $prov['id']
-                ]);
-                if (null === $object) {
-                    $object = new Provinsi();
+                try {
+                    $row = $this->entityManager->getRepository(Provinsi::class)
+                        ->createQueryBuilder('t')
+                        ->select('t.id')
+                        ->where('t.code = :c')->setParameter('c', $prov['id'])
+                        ->getQuery()->getSingleResult();
+                    $provId = $row['id'];
+                    $con->update('provinsi', [
+                        'code' => $prov['id'],
+                        'name' => strtoupper($prov['nama']),
+                    ], ['id' => $provId]);
+                } catch (NoResultException $e) {
+                    $provId = (string)Uuid::v7();
+                    $con->insert('provinsi', [
+                        'id' => $provId,
+                        'code' => $prov['id'],
+                        'name' => strtoupper($prov['nama']),
+                    ]);
                 }
 
-                $object->setCode($prov['id'])
-                    ->setName(strtoupper($prov['nama']));
-
-                $this->entityManager->persist($object);
                 if (!in_array('kabupaten', $data)) {
                     continue;
                 }
 
                 $kabupatens = $this->regionSourceReader->filterByProvinceId($prov['id'], $this->configs['kabupaten']);
                 foreach ($kabupatens as $kabupaten) {
-                    $kabObject = $this->entityManager->getRepository(Kabupaten::class)->findOneBy([
-                        'code' => $kabupaten['id'], 'provinsi' => $object
-                    ]);
-                    if (null === $kabObject) {
-                        $kabObject = new Kabupaten();
-                        $kabObject->setProvinsi($object)
-                            ->setCode($kabupaten['id']);
+                    try {
+                        $row = $this->entityManager->getRepository(Kabupaten::class)
+                            ->createQueryBuilder('t')->leftJoin('t.provinsi', 'p')
+                            ->select('t.id')
+                            ->where('t.code = :c')->setParameter('c', $kabupaten['id'])
+                            ->andWhere('p.id = :pp')->setParameter('pp', $provId)
+                            ->getQuery()->getSingleResult();
+                        $kabId = $row['id'];
+                        $con->update('kabupaten', [
+                            'code' => $kabupaten['id'],
+                            'name' => strtoupper($kabupaten['nama']),
+                            'provinsi_id' => $provId,
+                        ], ['id' => $kabId]);
+                    } catch (NoResultException $e) {
+                        $kabId = (string)Uuid::v7();
+                        $con->insert('kabupaten', [
+                            'id' => $kabId,
+                            'code' => $kabupaten['id'],
+                            'provinsi_id' => $provId,
+                            'name' => strtoupper($kabupaten['nama']),
+                        ]);
                     }
-                    $kabObject
-                        ->setName(strtoupper($kabupaten['nama']));
 
-                    $this->entityManager->persist($kabObject);
                     if (!in_array('kecamatan', $data)) {
                         continue;
                     }
 
                     $kecamatans = $this->districtSourceReader->filterByRegionId($kabupaten['id'], $this->configs['kecamatan']);
-                    $io->title(sprintf("kabupaten %s, total %s kecamatan", $kabObject->getName(), count($kecamatans)));
+                    $io->title(sprintf("kabupaten %s, total %s kecamatan", $kabupaten['nama'], count($kecamatans)));
                     foreach ($kecamatans as $kecamatan) {
-                        $kecObject = $this->entityManager->getRepository(Kecamatan::class)->findOneBy([
-                            'code' => $kecamatan['id'], 'kabupaten' => $kabObject
-                        ]);
-                        if (null === $kecObject) {
-                            $kecObject = new Kecamatan();
-                            $kecObject->setKabupaten($kabObject)
-                                ->setCode($kecamatan['id']);
+                        try {
+                            $row = $this->entityManager->getRepository(Kecamatan::class)
+                                ->createQueryBuilder('t')->leftJoin('t.kabupaten', 'p')
+                                ->select('t.id')
+                                ->where('t.code = :c')->setParameter('c', $kecamatan['id'])
+                                ->andWhere('p.id = :pp')->setParameter('pp', $kabId)
+                                ->getQuery()->getSingleResult();
+                            $kecId = $row['id'];
+                            $con->update('kecamatan', [
+                                'code' => $kecamatan['id'],
+                                'name' => strtoupper($kecamatan['nama']),
+                                'kabupaten_id' => $kabId,
+                            ], ['id' => $kecId]);
+                        } catch (NoResultException $e) {
+                            $kecId = (string)Uuid::v7();
+                            $con->insert('kecamatan', [
+                                'id' => $kecId,
+                                'code' => $kecamatan['id'],
+                                'kabupaten_id' => $kabId,
+                                'name' => strtoupper($kecamatan['nama']),
+                            ]);
                         }
 
-                        $kecObject
-                            ->setName(strtoupper($kecamatan['nama']));
-
-                        $this->entityManager->persist($kecObject);
                         if (!in_array('desa', $data)) {
                             continue;
                         }
 
-                        $villages = $this->villageSourceReader->filterByDistrictId($kecObject->getCode());
+                        $villages = $this->villageSourceReader->filterByDistrictId($kecamatan['id']);
                         foreach ($villages as $village) {
-                            $desaObject = $this->entityManager->getRepository(Desa::class)->findOneBy([
-                                'code' => $kecamatan['id'], 'kecamatan' => $kecObject
-                            ]);
-                            if (null === $desaObject) {
-                                $desaObject = new Desa();
-                                $desaObject->setKecamatan($kecObject)
-                                    ->setCode($village['id']);
+                            try {
+                                $row = $this->entityManager->getRepository(Desa::class)
+                                    ->createQueryBuilder('t')->leftJoin('t.kecamatan', 'p')
+                                    ->select('t.id')
+                                    ->where('t.code = :c')->setParameter('c', $village['id'])
+                                    ->andWhere('p.id = :pp')->setParameter('pp', $kecId)
+                                    ->getQuery()->getSingleResult();
+                                $desaId = $row['id'];
+                                $con->update('desa', [
+                                    'code' => $village['id'],
+                                    'name' => strtoupper($village['nama']),
+                                    'kecamatan_id' => $kecId
+                                ], ['id' => $desaId]);
+                            } catch (NoResultException $e) {
+                                $desaId = (string)Uuid::v7();
+                                $con->insert('desa', [
+                                    'id' => $desaId,
+                                    'code' => $village['id'],
+                                    'kecamatan_id' => $kecId,
+                                    'name' => strtoupper($village['nama']),
+                                ]);
                             }
-
-                            $desaObject
-                                ->setName(strtoupper($village['nama']));
-
-                            $this->entityManager->persist($desaObject);
-                        }
-
-                        if (true === $this->autoFlush) {
-                            $this->entityManager->flush();
-                            $this->entityManager->clear();
-                            $kecObject = $this->entityManager->getReference(Kecamatan::class, $kecObject->getId());
-                            $kabObject = $kecObject->getKabupaten();
-                            $object = $kabObject->getProvinsi();
                         }
                     }
-                    if (true === $this->autoFlush) {
-                        $this->entityManager->flush();
-                        $this->entityManager->clear();
-                        $kabObject = $this->entityManager->getReference(Kabupaten::class, $kabObject->getId());
-                        $object = $kabObject->getProvinsi();
-                    }
-                }
-
-                if (true === $this->autoFlush) {
-                    $this->entityManager->flush();
-                    $this->entityManager->clear();
                 }
             }
 
