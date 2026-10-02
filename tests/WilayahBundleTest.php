@@ -2,9 +2,8 @@
 
 namespace Kematjaya\WilayahBundle\Tests;
 
-use Kematjaya\StateManagementBundle\Repository\StateLogRepositoryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @package Kematjaya\StateManagementBundle\Tests
@@ -13,12 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class WilayahBundleTest extends WebTestCase
 {
-    public static function getKernelClass():string
+    public static function getKernelClass(): string
     {
-        return AppKernelTest::class;
+        return AppKernel::class;
     }
-    
-    public function testInstanceContainer():void
+
+    public function testInstanceContainer(): void
     {
         $container = static::getContainer();
         $this->assertInstanceOf(ContainerInterface::class, $container);
@@ -34,7 +33,7 @@ class WilayahBundleTest extends WebTestCase
     protected function restoreExceptionHandler(): void
     {
         while (true) {
-            $previousHandler = set_exception_handler(static fn() => null);
+            $previousHandler = set_exception_handler(static fn(): null => null);
 
             restore_exception_handler();
 

@@ -2,16 +2,16 @@
 
 namespace Kematjaya\WilayahBundle\Entity;
 
-use Kematjaya\WilayahBundle\Repository\KabupatenRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Kematjaya\WilayahBundle\Repository\KabupatenRepository;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass:KabupatenRepository::class)]
-class Kabupaten
+#[ORM\Entity(repositoryClass: KabupatenRepository::class)]
+class Kabupaten implements \Stringable
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -20,26 +20,26 @@ class Kabupaten
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code;
+    private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: Provinsi::class, inversedBy: "kabupatens")]
     #[ORM\JoinColumn(nullable: false)]
-    private $provinsi;
+    private ?Provinsi $provinsi = null;
 
     #[ORM\OneToMany(targetEntity: Kecamatan::class, mappedBy: 'kabupaten', orphanRemoval: true)]
-    private $kecamatans;
-    
+    private Collection $kecamatans;
+
     public function __construct()
     {
         $this->kecamatans = new ArrayCollection();
     }
-    
-    public function __toString() 
+
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
 
     public function getId(): ?Uuid

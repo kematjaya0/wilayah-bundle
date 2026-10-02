@@ -2,16 +2,16 @@
 
 namespace Kematjaya\WilayahBundle\Entity;
 
-use Kematjaya\WilayahBundle\Repository\ProvinsiRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Kematjaya\WilayahBundle\Repository\ProvinsiRepository;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass:ProvinsiRepository::class)]
-class Provinsi
+#[ORM\Entity(repositoryClass: ProvinsiRepository::class)]
+class Provinsi implements \Stringable
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -20,24 +20,24 @@ class Provinsi
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code;
+    private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Kabupaten::class, mappedBy: 'provinsi', orphanRemoval: true)]
-    private $kabupatens;
+    private Collection $kabupatens;
 
     public function __construct()
     {
         $this->kabupatens = new ArrayCollection();
     }
 
-    public function __toString() 
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
-    
+
     public function getId(): ?Uuid
     {
         return $this->id;

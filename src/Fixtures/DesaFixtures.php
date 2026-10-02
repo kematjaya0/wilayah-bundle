@@ -2,13 +2,13 @@
 
 namespace Kematjaya\WilayahBundle\Fixtures;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
-use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
-use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
+use Kematjaya\WilayahBundle\Repository\KecamatanRepository;
+use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -19,14 +19,18 @@ use Symfony\Component\Uid\Uuid;
  */
 class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFixtureInterface
 {
-    private $configs = [];
-    public function __construct(ParameterBagInterface $bag, private EntityManagerInterface $em, private KecamatanRepository $kecamatanRepo, private VillageSourceReaderInterface $villageSourceReader)
-    {
+    private readonly array $configs;
+    public function __construct(
+        ParameterBagInterface $bag,
+        private readonly EntityManagerInterface $em,
+        private readonly KecamatanRepository $kecamatanRepo,
+        private readonly VillageSourceReaderInterface $villageSourceReader,
+    ) {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
     }
 
-    public function load(ObjectManager $manager) :void
+    public function load(ObjectManager $manager): void
     {
         $con = $this->em->getConnection();
         $kecamatans = $this->kecamatanRepo->createQueryBuilder('t')
@@ -41,10 +45,10 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
 
             foreach ($villages as $village) {
                 $con->insert('desa', [
-                    'id' => (string)Uuid::v7(),
+                    'id' => (string) Uuid::v7(),
                     'code' => $village['id'],
                     'name' => strtoupper($village['nama']),
-                    'kecamatan_id' => $row['id']
+                    'kecamatan_id' => $row['id'],
                 ]);
             }
 
@@ -57,10 +61,10 @@ class DesaFixtures extends Fixture implements FixtureGroupInterface, DependentFi
         return ['wilayah'];
     }
 
-    public function getDependencies() :array
+    public function getDependencies(): array
     {
         return [
-            WilayahFixtures::class
+            WilayahFixtures::class,
         ];
     }
 

@@ -14,27 +14,25 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  */
 class ProvinceSourceReader implements ProvinceSourceReaderInterface
 {
-    public function read(): array 
+    public function read(): array
     {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data/v2';
-        
+
         return json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'provinsi.json'), true
+            file_get_contents($location . DIRECTORY_SEPARATOR . 'provinsi.json'),
+            true
         );
     }
-    
-    public function findAll(array $ids = []):?array
+
+    public function findAll(array $ids = []): ?array
     {
         $provinsi = $this->read();
         if (empty($ids)) {
-            
+
             return $provinsi;
         }
-        
-        return array_filter($provinsi, function (array $row) use ($ids) {
-                
-            return in_array($row['id'], $ids);
-        });
+
+        return array_filter($provinsi, fn(array $row): bool => in_array($row['id'], $ids));
     }
 
 }

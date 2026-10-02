@@ -8,10 +8,9 @@
 namespace Kematjaya\WilayahBundle\SourceReader;
 
 /**
- *
  * @author guest
  */
 interface ProvinceSourceReaderInterface
 {
-    public function findAll(array $ids = []):?array;
+    public function findAll(array $ids = []): ?array;
 }

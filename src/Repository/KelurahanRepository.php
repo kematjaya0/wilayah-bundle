@@ -6,9 +6,9 @@
 
 namespace Kematjaya\WilayahBundle\Repository;
 
-use Kematjaya\WilayahBundle\Entity\Kelurahan;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Kematjaya\WilayahBundle\Entity\Kelurahan;
 
 /**
  * @package Kematjaya\WilayahBundle\Repository

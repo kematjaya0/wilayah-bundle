@@ -11,7 +11,7 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
-use Doctrine\ORM\Mapping;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\NativeQuery;
 use Doctrine\ORM\Proxy\ProxyFactory;
@@ -22,7 +22,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\UnitOfWork;
 
-class EntityManager implements EntityManagerInterface 
+class EntityManager implements EntityManagerInterface
 {
     public function getRepository(string $className): EntityRepository
     {
@@ -154,7 +154,7 @@ class EntityManager implements EntityManagerInterface
         // TODO: Implement hasFilters() method.
     }
 
-    public function getClassMetadata(string $className): Mapping\ClassMetadata
+    public function getClassMetadata(string $className): ClassMetadata
     {
         // TODO: Implement getClassMetadata() method.
     }

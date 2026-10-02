@@ -2,14 +2,14 @@
 
 namespace Kematjaya\WilayahBundle\Entity;
 
-use Kematjaya\WilayahBundle\Repository\DesaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Kematjaya\WilayahBundle\Repository\DesaRepository;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass:DesaRepository::class)]
-class Desa
+#[ORM\Entity(repositoryClass: DesaRepository::class)]
+class Desa implements \Stringable
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -18,28 +18,28 @@ class Desa
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code;
+    private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: Kecamatan::class)]
-    private $kecamatan;
+    private ?Kecamatan $kecamatan = null;
 
     #[ORM\ManyToOne(targetEntity: Kelurahan::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private $kelurahan;
-    
+    private ?Kelurahan $kelurahan = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
     }
 
-    public function __toString() 
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
-    
+
     public function getCode(): ?string
     {
         return $this->code;
@@ -64,27 +64,27 @@ class Desa
         return $this;
     }
 
-    public function getKecamatan():?Kecamatan 
+    public function getKecamatan(): ?Kecamatan
     {
         return $this->kecamatan;
     }
 
-    public function setKecamatan(?Kecamatan $kecamatan):self 
+    public function setKecamatan(?Kecamatan $kecamatan): self
     {
         $this->kecamatan = $kecamatan;
-        
+
         return $this;
     }
 
-    public function getKelurahan():?Kelurahan 
+    public function getKelurahan(): ?Kelurahan
     {
         return $this->kelurahan;
     }
 
-    public function setKelurahan(?Kelurahan $kelurahan):self 
+    public function setKelurahan(?Kelurahan $kelurahan): self
     {
         $this->kelurahan = $kelurahan;
-        
+
         return $this;
     }
 }

@@ -15,11 +15,12 @@ namespace Kematjaya\WilayahBundle\SourceReader;
 class KelurahanSourceReader implements KelurahanSourceReaderInterface
 {
     //put your code here
-    public function read(): array 
+    public function read(): array
     {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data';
         return json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'), true
+            file_get_contents($location . DIRECTORY_SEPARATOR . 'kelurahan.json'),
+            true
         );
     }
 

@@ -2,9 +2,9 @@
 
 namespace Kematjaya\WilayahBundle\Repository;
 
-use Kematjaya\WilayahBundle\Entity\Desa;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Kematjaya\WilayahBundle\Entity\Desa;
 
 /**
  * @method Desa|null find($id, $lockMode = null, $lockVersion = null)

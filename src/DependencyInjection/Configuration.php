@@ -2,9 +2,9 @@
 
 namespace Kematjaya\WilayahBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 
 /**
  * @author Nur Hidayatullah <kematjaya0@gmail.com>
@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    public function addRouteConfig(NodeBuilder $node)
+    public function addRouteConfig(NodeBuilder $node): void
     {
         $node
             ->booleanNode("auto-flush")

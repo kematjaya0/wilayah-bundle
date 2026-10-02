@@ -12,9 +12,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 // TODO: perlu ubah URL https://wilayah.id/
 #[AsCommand(
@@ -22,11 +22,11 @@ use Symfony\Component\Filesystem\Filesystem;
 )]
 class WilayahConsole extends Command
 {
-    public function __construct(private HttpClientInterface $httpClient)
+    public function __construct(private readonly HttpClientInterface $httpClient)
     {
         parent::__construct();
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -38,23 +38,23 @@ class WilayahConsole extends Command
             if (!$fileSystem->exists($filePath)) {
                 $fileSystem->dumpFile($filePath, json_encode([]));
             }
-            
+
             $fileSystem->dumpFile($filePath, json_encode($data['provinsi']));
-            
+
             foreach ($data['provinsi'] as $provinsi) {
                 $this->getKota($provinsi);
             }
         } catch (\Exception $ex) {
             $io->error($ex->getMessage());
             return [
-                'error' => $ex->getMessage()
+                'error' => $ex->getMessage(),
             ];
         }
-        
+
         return self::SUCCESS;
     }
-    
-    protected function getKota(array $provinsi)
+
+    protected function getKota(array $provinsi): void
     {
         $response = $this->httpClient->request(Request::METHOD_GET, 'https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=' . $provinsi['id']);
         $data = $response->toArray();
@@ -70,8 +70,8 @@ class WilayahConsole extends Command
             $this->getKecamatan($kabupaten);
         }
     }
-    
-    protected function getKecamatan(array $kabupaten)
+
+    protected function getKecamatan(array $kabupaten): void
     {
         $response = $this->httpClient->request(Request::METHOD_GET, 'https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=' . $kabupaten['id']);
         $data = $response->toArray();
@@ -87,8 +87,8 @@ class WilayahConsole extends Command
             $this->getKelurahan($kecamatan);
         }
     }
-    
-    protected function getKelurahan(array $kecamatan)
+
+    protected function getKelurahan(array $kecamatan): void
     {
         $response = $this->httpClient->request(Request::METHOD_GET, 'https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=' . $kecamatan['id']);
         $data = $response->toArray();

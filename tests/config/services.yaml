@@ -5,7 +5,7 @@ services:
     public: true
 
   Doctrine\Persistence\ManagerRegistry:
-    class: Kematjaya\WilayahBundle\Tests\Utils\ManagerRegistryTest
+    class: Kematjaya\WilayahBundle\Tests\Utils\TestManagerRegistry
 
   Doctrine\ORM\EntityManagerInterface:
     class: Kematjaya\WilayahBundle\Tests\Utils\EntityManager

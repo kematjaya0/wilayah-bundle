@@ -6,9 +6,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 
-class ManagerRegistryTest implements ManagerRegistry
+class TestManagerRegistry implements ManagerRegistry
 {
-
     public function getDefaultConnectionName(): string
     {
         // TODO: Implement getDefaultConnectionName() method.
@@ -54,7 +53,7 @@ class ManagerRegistryTest implements ManagerRegistry
         // TODO: Implement getManagerNames() method.
     }
 
-    public function getRepository(string $persistentObject, ?string $persistentManagerName = null,): ObjectRepository
+    public function getRepository(string $persistentObject, ?string $persistentManagerName = null): ObjectRepository
     {
         // TODO: Implement getRepository() method.
     }

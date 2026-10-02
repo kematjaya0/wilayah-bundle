@@ -1,2 +1,13 @@
 framework:
   test: true
+
+doctrine:
+  dbal:
+    url: 'sqlite:///:memory:'
+  orm:
+    mappings:
+      WilayahBundle:
+        is_bundle: true
+        type: attribute
+        dir: Entity
+        prefix: Kematjaya\WilayahBundle\Entity

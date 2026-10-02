@@ -14,24 +14,21 @@ namespace Kematjaya\WilayahBundle\SourceReader;
  */
 class DistrictSourceReader implements DistrictSourceReaderInterface
 {
-
-    public function filterByRegionId(string $regionId, array $ids = []): array 
+    public function filterByRegionId(string $regionId, array $ids = []): array
     {
         $location = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/data/v2/kecamatan';
-        
+
         $datas = json_decode(
-            file_get_contents($location . DIRECTORY_SEPARATOR . $regionId . '.json'), true
+            file_get_contents($location . DIRECTORY_SEPARATOR . $regionId . '.json'),
+            true
         );
-        
+
         if (empty($ids)) {
-            
+
             return $datas;
         }
-        
-        return array_filter($datas, function ($row) use ($ids) {
-                
-            return in_array($row['id'], $ids);
-        });
+
+        return array_filter($datas, fn(array $row): bool => in_array($row['id'], $ids));
     }
 
 }

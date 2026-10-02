@@ -13,7 +13,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @license https://opensource.org/licenses/MIT MIT
  * @author  Nur Hidayatullah <kematjaya0@gmail.com>
  */
-class WilayahBundle extends Bundle
-{
-    
-}
+class WilayahBundle extends Bundle {}

@@ -8,7 +8,6 @@
 namespace Kematjaya\WilayahBundle\SourceReader;
 
 /**
- *
  * @author guest
  */
 interface DistrictSourceReaderInterface

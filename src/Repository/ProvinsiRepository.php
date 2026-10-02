@@ -2,9 +2,9 @@
 
 namespace Kematjaya\WilayahBundle\Repository;
 
-use Kematjaya\WilayahBundle\Entity\Provinsi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Kematjaya\WilayahBundle\Entity\Provinsi;
 
 /**
  * @method Provinsi|null find($id, $lockMode = null, $lockVersion = null)

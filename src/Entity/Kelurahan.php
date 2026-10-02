@@ -2,14 +2,14 @@
 
 namespace Kematjaya\WilayahBundle\Entity;
 
-use Kematjaya\WilayahBundle\Repository\KelurahanRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Kematjaya\WilayahBundle\Repository\KelurahanRepository;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass:KelurahanRepository::class)]
-class Kelurahan 
+#[ORM\Entity(repositoryClass: KelurahanRepository::class)]
+class Kelurahan implements \Stringable
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -18,24 +18,24 @@ class Kelurahan
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $code;
+    private ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: Kecamatan::class)]
-    private $kecamatan;
-    
+    private ?Kecamatan $kecamatan = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
     }
 
-    public function __toString() 
+    public function __toString(): string
     {
-        return $this->getName();
+        return (string) $this->getName();
     }
-    
+
     public function getCode(): ?string
     {
         return $this->code;
@@ -60,15 +60,15 @@ class Kelurahan
         return $this;
     }
 
-    public function getKecamatan():?Kecamatan 
+    public function getKecamatan(): ?Kecamatan
     {
         return $this->kecamatan;
     }
 
-    public function setKecamatan(?Kecamatan $kecamatan):self 
+    public function setKecamatan(?Kecamatan $kecamatan): self
     {
         $this->kecamatan = $kecamatan;
-        
+
         return $this;
     }
 }

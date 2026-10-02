@@ -7,22 +7,22 @@
 
 namespace Kematjaya\WilayahBundle\Console;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
-use Kematjaya\WilayahBundle\Entity\Provinsi;
+use Kematjaya\WilayahBundle\Entity\Desa;
 use Kematjaya\WilayahBundle\Entity\Kabupaten;
 use Kematjaya\WilayahBundle\Entity\Kecamatan;
-use Kematjaya\WilayahBundle\Entity\Desa;
-use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
+use Kematjaya\WilayahBundle\Entity\Provinsi;
 use Kematjaya\WilayahBundle\SourceReader\DistrictSourceReaderInterface;
-use Kematjaya\WilayahBundle\SourceReader\RegionSourceReaderInterface;
 use Kematjaya\WilayahBundle\SourceReader\ProvinceSourceReaderInterface;
+use Kematjaya\WilayahBundle\SourceReader\RegionSourceReaderInterface;
+use Kematjaya\WilayahBundle\SourceReader\VillageSourceReaderInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -31,26 +31,32 @@ use Symfony\Component\Uid\Uuid;
 )]
 class DataConsole extends Command
 {
-    private $data = ['provinsi', 'kabupaten', 'kecamatan', 'desa'];
+    private array $data = ['provinsi', 'kabupaten', 'kecamatan', 'desa'];
 
-    private $configs = [];
-    private ?bool $autoFlush = true;
+    private readonly array $configs;
+    private readonly bool $autoFlush;
 
-    public function __construct(ParameterBagInterface $bag, private EntityManagerInterface $entityManager, private VillageSourceReaderInterface $villageSourceReader, private DistrictSourceReaderInterface $districtSourceReader, private RegionSourceReaderInterface $regionSourceReader, private ProvinceSourceReaderInterface $provinceSourceReader)
-    {
+    public function __construct(
+        ParameterBagInterface $bag,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly VillageSourceReaderInterface $villageSourceReader,
+        private readonly DistrictSourceReaderInterface $districtSourceReader,
+        private readonly RegionSourceReaderInterface $regionSourceReader,
+        private readonly ProvinceSourceReaderInterface $provinceSourceReader,
+    ) {
         $configs = $bag->get('wilayah');
         $this->configs = $configs['filter'];
-        $this->autoFlush = $configs['auto-flush'];
+        $this->autoFlush = (bool) ($configs['auto-flush'] ?? true);
         parent::__construct();
     }
 
-    protected function configure():void
+    protected function configure(): void
     {
         $this
             ->addOption(
                 'data',
                 null,
-                InputOption::VALUE_IS_ARRAY|InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL,
                 'Which data will you insert ?',
                 $this->data
             );
@@ -92,8 +98,8 @@ class DataConsole extends Command
                         'code' => $prov['id'],
                         'name' => strtoupper($prov['nama']),
                     ], ['id' => $provId]);
-                } catch (NoResultException $e) {
-                    $provId = (string)Uuid::v7();
+                } catch (NoResultException) {
+                    $provId = (string) Uuid::v7();
                     $con->insert('provinsi', [
                         'id' => $provId,
                         'code' => $prov['id'],
@@ -120,8 +126,8 @@ class DataConsole extends Command
                             'name' => strtoupper($kabupaten['nama']),
                             'provinsi_id' => $provId,
                         ], ['id' => $kabId]);
-                    } catch (NoResultException $e) {
-                        $kabId = (string)Uuid::v7();
+                    } catch (NoResultException) {
+                        $kabId = (string) Uuid::v7();
                         $con->insert('kabupaten', [
                             'id' => $kabId,
                             'code' => $kabupaten['id'],
@@ -150,8 +156,8 @@ class DataConsole extends Command
                                 'name' => strtoupper($kecamatan['nama']),
                                 'kabupaten_id' => $kabId,
                             ], ['id' => $kecId]);
-                        } catch (NoResultException $e) {
-                            $kecId = (string)Uuid::v7();
+                        } catch (NoResultException) {
+                            $kecId = (string) Uuid::v7();
                             $con->insert('kecamatan', [
                                 'id' => $kecId,
                                 'code' => $kecamatan['id'],
@@ -177,10 +183,10 @@ class DataConsole extends Command
                                 $con->update('desa', [
                                     'code' => $village['id'],
                                     'name' => strtoupper($village['nama']),
-                                    'kecamatan_id' => $kecId
+                                    'kecamatan_id' => $kecId,
                                 ], ['id' => $desaId]);
-                            } catch (NoResultException $e) {
-                                $desaId = (string)Uuid::v7();
+                            } catch (NoResultException) {
+                                $desaId = (string) Uuid::v7();
                                 $con->insert('desa', [
                                     'id' => $desaId,
                                     'code' => $village['id'],
